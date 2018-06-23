@@ -1,26 +1,25 @@
 <h1 align="center">
-  <img src="snap/gui/tmnationsforever.png" alt="Track Mania Nations Forever">
+  <img src="snap/gui/tsun.png" alt="C&C: Tiberian Sun">
   <br />
-  Track Mania Nations Forever
+  C&C: Tiberian Sun
 </h1>
 
-<p align="center"><b>This is the snap for Track Mania Nations Forever</b>. It works on Ubuntu, Fedora, Debian, and other major Linux
+<p align="center"><b>This is the snap for C&C: Tiberian Sun</b>. It works on Ubuntu, Fedora, Debian, and other major Linux
 distributions.</p>
 
 <p align="center">Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
 
 <p align="center">
-<a href="https://build.snapcraft.io/user/snapcrafters/tmnationsforever"><img src="https://build.snapcraft.io/badge/snapcrafters/tmnationsforever.svg" alt="Snap Status"></a>
+<a href="https://build.snapcraft.io/user/mmtrt/tsun"><img src="https://build.snapcraft.io/badge/mmtrt/tsun.svg" alt="Snap Status"></a>
 </p>
 
 ## Install
 
-    snap install tmnationsforever --edge
-    snap connect tmnationsforever:joystick
+    snap install tsun --edge
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
-![Track Mania Nations Forever](screenshot.png?raw=true "Track Mania Nations Forever")
+![C&C: Tiberian Sun](screenshot.png?raw=true "C&C: Tiberian Sun")
 
 ## Reusing this snap
 
@@ -28,7 +27,7 @@ You can use this snap as a reference for creating snaps of other WINE
 compatible 32-bit Windows applications or games. Here are the main
 things you'll need to modify:
 
-  * Change the meta data and `apps:` and `parts:` names from `tmnationsforever`.
+  * Change the meta data and `apps:` and `parts:` names from `tsun`.
   * Modify the `command:` to reference the executable the application/game should launch.
   * If you can't redistrbute the application/game use `INSTALL_URL:` to reference a web accessible installer.
   * Modify the `install_app()` and `launch_app()` functions in [`snap/scripts/sommelier`](snap/scripts/sommelier) to suit the application/game you're snapping.
@@ -44,7 +43,7 @@ Here's an example `environment:` that shows how to use some of the capabilities 
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
-      INSTALL_URL: "http://files.trackmaniaforever.com/tmnationsforever_setup.exe"
+      INSTALL_URL: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe"
       TRICKS: "winxp corefonts d3dx9_43"
       VIRTDESKTOP: 1
       LC_ALL: "C.UTF-8"

@@ -1,15 +1,8 @@
-name: tmnationsforever
-version: '2.11.26'
-summary: TrackMania Nations Forever
+name: tsun
+version: '1'
+summary: Tiberian Sun is a real-time strategy game.
 description: |
- The most popular online PC racing game. It fuels 7 different racing
- environments; hundreds of thousands of tracks and millions of players to
- compete with. You can download the car you are dreaming of, paint it, drive it
- through insane tracks made of loopings, ramps and off roads. It is all about
- you, your driving skills and the track in front of you.
- .
- Just to make sure we understand each other: this is pure arcade driving
- madness.
+ Tiberian Sun is a real-time strategy video game developed by Westwood Studios and released in 1999. The main storyline follows the second major war between the Global Defense Initiative (GDI) of the United Nations, and the global terrorist organization known as the Brotherhood of Nod. The story takes place 30 years after the GDI had won the First Tiberium War in Command & Conquer.
 
 grade: stable
 confinement: strict
@@ -18,32 +11,12 @@ architectures:
     run-on: [amd64, i386]
 
 apps:
-  tmnationsforever:
-    command: bin/sommelier "$WINEPREFIX/drive_c/Program Files/TmNationsForever/TmForever.exe"
+  tsun:
+    command: bin/sommelier "$WINEPREFIX/drive_c/Games/CnCNet/TiberianSun_Online/TSMPLauncher.exe"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
-      INSTALL_URL: "http://files.trackmaniaforever.com/tmnationsforever_setup.exe"
-      VIRTDESKTOP: 1
-      LC_ALL: "C.UTF-8"
-    plugs:
-      - desktop
-      - desktop-legacy
-      - hardware-observe
-      - home
-      - joystick
-      - network
-      - network-bind
-      - opengl
-      - pulseaudio
-      - wayland
-      - x11
-  launcher:
-    command: bin/sommelier "$WINEPREFIX/drive_c/Program Files/TmNationsForever/TmForeverLauncher.exe"
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
-      INSTALL_URL: "http://files.trackmaniaforever.com/tmnationsforever_setup.exe"
+      INSTALL_URL: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe"
       VIRTDESKTOP: 1
       LC_ALL: "C.UTF-8"
     plugs:
@@ -219,7 +192,7 @@ parts:
     after:
       - enable-i386
 
-  tmnationsforever:
+  tsun:
     plugin: dump
     build-attributes:
       - no-system-libraries
