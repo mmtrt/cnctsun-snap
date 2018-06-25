@@ -29,6 +29,7 @@ apps:
       - network
       - network-bind
       - opengl
+      - process-control
       - pulseaudio
       - wayland
       - x11
