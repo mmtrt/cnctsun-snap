@@ -16,6 +16,7 @@ distributions.</p>
 ## Install
 
     snap install tsun --edge
+    snap connect tsun:process-control
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
