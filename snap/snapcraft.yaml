@@ -16,9 +16,9 @@ apps:
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       INSTALL_URL: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe"
-      VIRTDESKTOP: 1
       MONO_URL: https://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi
       GECKO_URL: https://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi
+      VIRTDESKTOP: 0
       LC_ALL: "C.UTF-8"
     plugs:
       - desktop
