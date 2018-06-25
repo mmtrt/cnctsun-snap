@@ -18,6 +18,7 @@ apps:
       INSTALL_URL: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe"
       MONO_URL: "https://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi"
       GECKO_URL: "https://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi"
+      TRICKS: "dotnet20"
       VIRTDESKTOP: 0
       LC_ALL: "C.UTF-8"
     plugs:
