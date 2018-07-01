@@ -15,6 +15,7 @@ apps:
     command: bin/sommelier "$WINEPREFIX/drive_c/Games/CnCNet/TiberianSun_Online/TSMPLauncher.exe"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
       INSTALL_URL: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe"
       MONO_URL: "https://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi"
       TRICKS: "dotnet20"
@@ -37,6 +38,7 @@ apps:
     command: bin/sommelier $SNAP/bin/wineboot
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
     plugs:
       - desktop
       - desktop-legacy
@@ -47,6 +49,7 @@ apps:
     command: bin/sommelier $SNAP/bin/winecfg
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
     plugs:
       - desktop
       - desktop-legacy
@@ -57,6 +60,7 @@ apps:
     command: bin/sommelier $SNAP/bin/winetricks prefix="$WINEPREFIX"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
       LC_ALL: "C.UTF-8"
     plugs:
       - desktop
