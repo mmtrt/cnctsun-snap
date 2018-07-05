@@ -1,12 +1,12 @@
 [Desktop Entry]
 Type=Application
 Encoding=UTF-8
-Name=Tiberian Sun CnCNet
+Name=C&C Tiberian Sun
 Comment=
 Exec=tsun
-Icon=${SNAP}/meta/gui/tsun.png
+Icon=${SNAP}/meta/gui/cnctsun.png
 Categories=Game;
 Terminal=false
 StartupNotify=true
-StartupWMClass=TSMPLauncher.exe
+StartupWMClass=Launcher.exe
 Keywords=game

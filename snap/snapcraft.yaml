@@ -1,4 +1,4 @@
-name: tsun
+name: cnctsun
 version: '1'
 summary: Tiberian Sun is a real-time strategy game.
 description: |
@@ -11,12 +11,12 @@ architectures:
     run-on: [amd64, i386]
 
 apps:
-  tsun:
-    command: bin/sommelier "$WINEPREFIX/drive_c/Games/CnCNet/TiberianSun_Online/TSMPLauncher.exe"
+  cnctsun:
+    command: bin/sommelier "$WINEPREFIX/drive_c/Westwood/SUN/Launcher.exe"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
-      INSTALL_URL: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe"
+      INSTALL_URL: "http://tore29.com/tsins/TSinstaller.exe"
       MONO_URL: "https://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi"
       TRICKS: "dotnet20"
       VIRTDESKTOP: 0
@@ -198,7 +198,7 @@ parts:
     after:
       - enable-i386
 
-  tsun:
+  cnctsun:
     plugin: dump
     build-attributes:
       - no-system-libraries

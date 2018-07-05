@@ -1,11 +1,11 @@
 #!/bin/bash
 
-TITLE="Tiberian Sun"
+TITLE="C&C Tiberian Sun"
 NOTICE="The ${TITLE} snap is experimental, built
 with development releases of upstream WINE and may not function as
 expected.\n\nIf you encounter issues please report them on the
 ${TITLE} snap issue tracker:
-\n\nhttps://github.com/mmtrt/tsun"
+\n\nhttps://github.com/mmtrt/cnctsun"
 
 function install_app() {
   # Install additional requirements via winetricks here
@@ -23,13 +23,9 @@ function install_app() {
     yad --progress --title="${INSTALL_EXE}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE}" /silent
-    # Copy game files to $WINEPREFIX
-    mkdir -p "${WINEPREFIX}/drive_c/Games/CnCNet/"
-    cp -R -p "${TMPDIR}/TiberianSun_Online" "${WINEPREFIX}/drive_c/Games/CnCNet/"
-    # Remove Game install from tmp
-    rm -r "${TMPDIR}/TiberianSun_Online"
     # Removes the cached installers
-    rm /tmp/dotnetfx.exe
+    rm "${progReg}"
+    rm -v "${TMPDIR}/${MONO_MSI}"
     rm -v "${TMPDIR}/${INSTALL_EXE}"
     rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}"
 
@@ -219,9 +215,22 @@ if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
   yad --progress --title="${MONO_MSI}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
   # Splash
   yad --timeout=15 --timeout-indicator=bottom --text="${NOTICE}" --no-escape --width=460 --center --no-buttons --splash --on-top &
+  # create dlloverride reg
+  progReg=${TMPDIR}/dlloverrides.reg
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Wine\AppDefaults\Game.exe\DllOverrides]
+"ddraw"="native,builtin"
+
+[HKEY_CURRENT_USER\Software\Wine\AppDefaults\ts-spawn.exe\DllOverrides]
+"ddraw"="native,builtin"
+EOF
   # Create the WINE environment
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" wineboot --init 2>&1 | \
   yad --progress --title="Preparing Windows environment" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --pulsate
+  # Apply reg
+  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${progReg}
   # Opt out of winetricks metrics - we ninja this to avoid dialogs
   if [ ! -f "${XDG_CACHE_HOME}/winetricks/track_usage" ]; then
     mkdir -p "${XDG_CACHE_HOME}/winetricks"
@@ -229,7 +238,7 @@ if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
   fi
 else
   # Notification
-  notify-send --icon "${SNAP}/meta/gui/tsun.png" --expire-time=15000 "${TITLE}" "${NOTICE}"
+  notify-send --icon "${SNAP}/meta/gui/cnctsun.png" --expire-time=15000 "${TITLE}" "${NOTICE}"
 fi
 
 # Launch wineboot/winecfg/winetricks if requested.

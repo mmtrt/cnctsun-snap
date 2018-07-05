@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="snap/gui/tsun.png" alt="C&C: Tiberian Sun">
+  <img src="snap/gui/cnctsun.png" alt="C&C: Tiberian Sun">
   <br />
   C&C: Tiberian Sun
 </h1>
@@ -9,14 +9,10 @@ distributions.</p>
 
 <p align="center">Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
 
-<p align="center">
-<a href="https://build.snapcraft.io/user/mmtrt/tsun"><img src="https://build.snapcraft.io/badge/mmtrt/tsun.svg" alt="Snap Status"></a>
-</p>
-
 ## Install
 
-    snap install tsun --edge
-    snap connect tsun:process-control
+    snap install cnctsun --edge
+    snap connect cnctsun:process-control
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
@@ -44,7 +40,7 @@ Here's an example `environment:` that shows how to use some of the capabilities 
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
-      INSTALL_URL: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe"
+      INSTALL_URL: "https://www.xyz.com/setup.exe"
       TRICKS: "winxp corefonts d3dx9_43"
       VIRTDESKTOP: 1
       LC_ALL: "C.UTF-8"
