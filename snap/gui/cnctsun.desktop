@@ -8,5 +8,5 @@ Icon=${SNAP}/meta/gui/cnctsun.png
 Categories=Game;
 Terminal=false
 StartupNotify=true
-StartupWMClass=Launcher.exe
+StartupWMClass=Launcher.exe,TSMPLauncher.exe
 Keywords=game

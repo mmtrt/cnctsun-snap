@@ -15,23 +15,74 @@ function install_app() {
     done
   fi
 
-  # Modify or remove this as required by your application.
-  if [ -n "${INSTALL_URL}" ]; then
+function find_game() {
+  # assign game exe path & name via find
+  WINE_EXE="$(find $WINEPREFIX/ -type f -name *.exe | grep -e Launcher.exe)"
+  WINE_DIR=$(dirname "${WINE_EXE}")
+}
+
+function install_ts() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TS}" ]; then
     # Downloads a file with progress using wget and yad
-    wget "${INSTALL_URL}" -O "${TMPDIR}/${INSTALL_EXE}" 2>&1 | \
+    wget "${INSTALL_URL_TS}" -O "${TMPDIR}/${INSTALL_EXE_TS}" 2>&1 | \
     perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
-    yad --progress --title="${INSTALL_EXE}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    yad --progress --title="${INSTALL_EXE_TS}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
-    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE}" /silent
-    # Removes the cached installers
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}" /silent
+    # Remove dlloverride reg
     rm "${progReg}"
-    rm -v "${TMPDIR}/${MONO_MSI}"
-    rm -v "${TMPDIR}/${INSTALL_EXE}"
+    # Removes the cached installers    
+    rm -v "${TMPDIR}/${INSTALL_EXE_TS}"
     rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}"
 
     # Launch after install.
+    find_game
     launch_app
   fi
+}
+
+function install_cnc() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_CNC}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_CNC}" -O "${TMPDIR}/${INSTALL_EXE_CNC}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_CNC}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_CNC}" /silent
+    # Copy game files to $WINEPREFIX
+    mkdir -p "${WINEPREFIX}/drive_c/Games/CnCNet/"
+    cp -R -p "${TMPDIR}/TiberianSun_Online" "${WINEPREFIX}/drive_c/Games/CnCNet/"
+    # Remove Game install from tmp
+    rm -r "${TMPDIR}/TiberianSun_Online"
+    # Removes the cached installers
+    rm -v "${TMPDIR}/${INSTALL_EXE_CNC}"
+    rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}"
+
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+  action=$(yad --width 400 --entry --title "C&C Tiberian Sun" \
+      --center \
+      --width=400 \
+      --button="Install:0" --button="Exit:1" \
+      --text "Select Game Version Type:" \
+      --entry-text \
+      "Full Game (Singleplayer + Multiplayer)" "Multiplayer")
+  ret=$?
+
+  [[ $ret -eq 1 ]] && exit 0
+
+  case $action in
+      Full*) cmd=$(install_ts) ;;
+      Multi*) cmd=$(install_cnc) ;;
+      *) exit 1 ;;    
+  esac
+
+  eval exec $cmd
 }
 
 function launch_app() {
@@ -76,8 +127,12 @@ else
 fi
 
 # If we've been given and installer URL derive the filename
-if [ -n "${INSTALL_URL}" ]; then
-  INSTALL_EXE=$(basename "${INSTALL_URL}")
+if [ -n "${INSTALL_URL_TS}" ]; then
+  INSTALL_EXE_TS=$(basename "${INSTALL_URL_TS}")
+fi
+
+if [ -n "${INSTALL_URL_CNC}" ]; then
+  INSTALL_EXE_CNC=$(basename "${INSTALL_URL_CNC}")
 fi
 
 if [ -n "${MONO_URL}" ]; then
@@ -208,13 +263,14 @@ fi
 
 # Initialise wine
 if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
+  # Remove dummy launcher file
+  rm "${WINEPREFIX}/Launcher.exe"
+  # Create wine cache dir
   mkdir -p ${XDG_CACHE_HOME}/wine
   # Download Wine Mono to cache
   wget "${MONO_URL}" -O "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>&1 | \
   perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
   yad --progress --title="${MONO_MSI}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
-  # Splash
-  yad --timeout=15 --timeout-indicator=bottom --text="${NOTICE}" --no-escape --width=460 --center --no-buttons --splash --on-top &
   # create dlloverride reg
   progReg=${TMPDIR}/dlloverrides.reg
 cat > $progReg <<'EOF'
@@ -229,7 +285,7 @@ EOF
   # Create the WINE environment
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" wineboot --init 2>&1 | \
   yad --progress --title="Preparing Windows environment" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --pulsate
-  # Apply reg
+  # Apply dlloverride reg
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${progReg}
   # Opt out of winetricks metrics - we ninja this to avoid dialogs
   if [ ! -f "${XDG_CACHE_HOME}/winetricks/track_usage" ]; then
