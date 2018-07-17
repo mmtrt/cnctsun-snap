@@ -82,7 +82,7 @@ function install_cnc() {
       *) exit 1 ;;    
   esac
 
-  eval exec $cmd
+  eval echo $cmd
 }
 
 function launch_app() {
