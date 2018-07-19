@@ -11,7 +11,7 @@ distributions.</p>
 
 ## Install
 
-    snap install cnctsun --edge
+    snap install cnctsun
     snap connect cnctsun:process-control
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
