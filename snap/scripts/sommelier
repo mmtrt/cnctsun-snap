@@ -2,8 +2,7 @@
 
 TITLE="C&C: Tiberian Sun"
 NOTICE="The ${TITLE} snap is experimental, built
-with development releases of upstream WINE and may not function as
-expected.\n\nIf you encounter issues please report them on the
+with development releases of upstream WINE and may not function as expected.\n\nIf you encounter issues please report them on the
 ${TITLE} snap issue tracker:
 \n\nhttps://github.com/mmtrt/cnctsun/issues"
 
