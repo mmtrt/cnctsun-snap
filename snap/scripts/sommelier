@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TITLE="C&C Tiberian Sun"
+TITLE="C&C: Tiberian Sun"
 NOTICE="The ${TITLE} snap is experimental, built
 with development releases of upstream WINE and may not function as
 expected.\n\nIf you encounter issues please report them on the
@@ -65,7 +65,7 @@ function install_cnc() {
     launch_app
   fi
 }
-  action=$(yad --width 400 --entry --title "C&C Tiberian Sun" \
+  action=$(yad --width 400 --entry --title "C&C: Tiberian Sun" \
       --center \
       --width=400 \
       --button="Install:0" --button="Exit:1" \
