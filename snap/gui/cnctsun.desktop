@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Encoding=UTF-8
-Name=C&C Tiberian Sun
+Name=C&C: Tiberian Sun
 Comment=
 Exec=cnctsun
 Icon=${SNAP}/meta/gui/cnctsun.png
