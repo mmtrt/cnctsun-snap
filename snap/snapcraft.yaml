@@ -106,7 +106,7 @@ parts:
 
       WINE_REL="wine-devel"
       WINE_ARCH="i386"
-      WINE_VER="3.12.0"
+      WINE_VER="3.13.0"
 
       # wget and dpkg extract the wine debs
       DEB_URLS="https://dl.winehq.org/wine-builds/ubuntu/pool/main/${WINE_REL}-${WINE_ARCH}_${WINE_VER}~xenial_${WINE_ARCH}.deb \
