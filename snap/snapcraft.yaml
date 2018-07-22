@@ -25,7 +25,7 @@ apps:
       DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
       INSTALL_URL_TS: "http://tore29.com/tsins/TSinstaller.exe" # cnctsun full game setup
       INSTALL_URL_CNC: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe" # cnctsun multiplayer only setup
-      MONO_URL: "https://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi"
+      MONO_URL: "https://dl.winehq.org/wine/wine-mono/4.7.3/wine-mono-4.7.3.msi"
       TRICKS: "dotnet20"
       VIRTDESKTOP: 0
       LC_ALL: "C.UTF-8"
