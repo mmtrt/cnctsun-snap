@@ -15,9 +15,9 @@ apps:
     command: |
       bin/sommelier "$(
       if [ ! -d $WINEPREFIX ]; then
-      mkdir -p $WINEPREFIX && touch $WINEPREFIX/Launcher.exe && find $WINEPREFIX/ -type f -name *.exe | grep -e Launcher.exe
+      mkdir -p $WINEPREFIX && touch $WINEPREFIX/Launcher.exe && find $WINEPREFIX/ -type f -name '*.exe' | grep -e Launcher.exe
       elif [ -d $WINEPREFIX ]; then
-      find $WINEPREFIX/ -type f -name *.exe | grep -e Launcher.exe
+      find $WINEPREFIX/ -type f -name '*.exe' | grep -e Launcher.exe
       fi
       )"
     environment:
