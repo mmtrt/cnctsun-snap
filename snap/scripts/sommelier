@@ -34,7 +34,7 @@ function install_ts() {
     # Removes the cached installers    
     rm -v "${TMPDIR}/${INSTALL_EXE_TS}"
     rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}"
-
+    rm -r "${XDG_CACHE_HOME}/winetricks"
     # Launch after install.
     find_game
     launch_app
@@ -58,7 +58,7 @@ function install_cnc() {
     # Removes the cached installers
     rm -v "${TMPDIR}/${INSTALL_EXE_CNC}"
     rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}"
-
+    rm -r "${XDG_CACHE_HOME}/winetricks"
     # Launch after install.
     find_game
     launch_app
