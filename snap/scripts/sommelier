@@ -120,9 +120,6 @@ function append_dir() {
 if [ -n "${1}" ]; then
   WINE_EXE="${1}"
   WINE_DIR=$(dirname "${WINE_EXE}")
-else
-  echo "ERROR! I need an executable that I should launch. Exitting here."
-  exit 1
 fi
 
 # If we've been given and installer URL derive the filename
