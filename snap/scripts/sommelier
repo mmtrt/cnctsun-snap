@@ -240,7 +240,11 @@ fi
 
 # Font Config and themes
 export FONTCONFIG_PATH=$SNAP/etc/fonts/conf.d
-#export FONTCONFIG_FILE=$XDG_CONFIG_HOME/fontconfig/fonts.conf
+export FONTCONFIG_FILE=$XDG_CONFIG_HOME/fontconfig/fonts.conf
+if [ -f $SNAP/etc/fonts/fonts.conf ] && [ ! -f "${FONTCONFIG_FILE}" ]; then
+  mkdir -p $XDG_CONFIG_HOME/fontconfig/
+  cp $SNAP/etc/fonts/fonts.conf $FONTCONFIG_FILE
+fi
 
 # Gdk-pixbuf loaders
 export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
