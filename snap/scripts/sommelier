@@ -263,8 +263,6 @@ fi
 
 # Initialise wine
 if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
-  # Remove dummy launcher file
-  rm "${WINEPREFIX}/Launcher.exe"
   # Create wine cache dir
   mkdir -p ${XDG_CACHE_HOME}/wine
   # Download Wine Mono to cache

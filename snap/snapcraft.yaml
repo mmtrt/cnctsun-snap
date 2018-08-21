@@ -13,13 +13,7 @@ architectures:
 apps:
   cnctsun:
     command: |
-      bin/sommelier "$(
-      if [ ! -d $WINEPREFIX ]; then
-      mkdir -p $WINEPREFIX && touch $WINEPREFIX/Launcher.exe && find $WINEPREFIX/ -type f -name '*.exe' | grep -e Launcher.exe
-      elif [ -d $WINEPREFIX ]; then
-      find $WINEPREFIX/ -type f -name '*.exe' | grep -e Launcher.exe
-      fi
-      )"
+      bin/sommelier "$(find $WINEPREFIX/ -type f \( -name 'Launcher.exe' -o -name 'TSMPLauncher.exe' \) 2>/dev/null)"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
