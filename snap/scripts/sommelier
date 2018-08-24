@@ -5,7 +5,7 @@ chkwp=$SNAP/wine-platform
 if [ ! -d $chkwp/usr ] ; then
   echo "You need to connect this snap to the wine-platform-i386 snap."
   echo ""
-  echo "snap connect $SNAP_NAME:wine-platform-i386 wine-platform-i386:wine-base-devel"
+  echo "snap connect $SNAP_NAME:wine-platform-plug wine-platform-i386:wine-base-devel"
   exit 1
 fi
 
