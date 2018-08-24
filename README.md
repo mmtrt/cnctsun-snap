@@ -12,7 +12,7 @@ distributions.</p>
 ## Install
 
     snap install cnctsun
-    snap connect cnctsun:process-control
+    snap connect cnctsun:wine-platform-i386 wine-platform-i386:wine-base-devel
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
