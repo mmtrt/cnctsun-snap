@@ -11,10 +11,11 @@ architectures:
     run-on: [amd64, i386]
 
 plugs:
-  wine-platform-i386:
+  wine-platform-plug:
+    content: wine-base-devel
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-i386:wine-base-devel
+    default-provider: wine-platform-i386
 
 apps:
   cnctsun:
@@ -30,7 +31,7 @@ apps:
       VIRTDESKTOP: 0
       LC_ALL: "C.UTF-8"
     plugs:
-      - wine-platform-i386
+      - wine-platform-plug
       - desktop
       - desktop-legacy
       - hardware-observe
