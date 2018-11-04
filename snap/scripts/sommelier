@@ -7,10 +7,12 @@ REL=stable
 # wine base
 WINE_BASE=wine-$REL
 
-if [ ! -d $WP/usr ] ; then
-  echo "You need to connect this snap to the wine-platform-i386 snap."
+if [ ! -f $WP/$WINE_BASE/bin/wine64 ] ; then
+  echo "You need to connect this snap to the wine-platform snap."
   echo ""
-  echo "snap connect $SNAP_NAME:wine-platform-plug wine-platform-i386:wine-base-$REL"
+  echo "snap disconnect $SNAP_NAME:wine-platform-plug"
+  echo "snap install wine-platform"
+  echo "snap connect $SNAP_NAME:wine-platform-plug wine-platform:wine-base-$REL"
   exit 1
 fi
 
@@ -164,12 +166,17 @@ fi
 SNAP=`echo $SNAP | sed -e "s|/var/lib/snapd||g"`
 
 export GTK_MODULES=""
-export WINEARCH="win32"
 
-if [ "${WINEARCH}" == "win32" ]; then
-  ARCH="i386-linux-gnu"
+if [ "$SNAP_ARCH" = "amd64" ]; then
+  # using win32 bc of dotnet20
+  export WINEARCH=win32
+  export ARCH="x86_64-linux-gnu"
+elif [ "$SNAP_ARCH" = "i386" ]; then
+  export WINEARCH=win32
+  export ARCH="i386-linux-gnu"
 else
-  ARCH="x86_64-linux-gnu"
+  echo "Host architecture ($SNAP_ARCH) unsupported."
+  exit 1
 fi
 
 if [ -n "${DLLOVERRIDES}" ]; then
@@ -186,25 +193,36 @@ export WINEDEBUG=-all
 export LD_LIBRARY_PATH="$WP/lib:$WP/lib/$ARCH:$WP/usr/lib:$WP/usr/lib/$ARCH:$LD_LIBRARY_PATH"
 export PATH=$PATH:$WP/bin:$WP/usr/bin:$WP/$WINE_BASE/bin
 
+if [ "$SNAP_ARCH" = "amd64" ]; then
+  append_dir LD_LIBRARY_PATH $WP/lib64
+  append_dir LD_LIBRARY_PATH $WP/lib/i386-linux-gnu
+  append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu
+fi
+
 # XKB config
 export XKB_CONFIG_ROOT=$WP/usr/share/X11/xkb
 
 # Give XOpenIM a chance to locate locale data.
 # This is required for text input to work in SDL2 games.
 export XLOCALEDIR=$WP/usr/share/X11/locale
+export LOCPATH=$WP/usr/lib/locale
 
 # Set XCursors path
 export XCURSOR_PATH=$WP/usr/share/icons
 
 # SAMBA Libs for ntlm_auth to function
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/samba
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/samba
 
 # Mesa Libs for OpenGL support
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa-egl
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/mesa
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/mesa-egl
 
 # Tell libGL where to find the drivers
 export LIBGL_DRIVERS_PATH=$WP/usr/lib/$ARCH/dri
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LIBGL_DRIVERS_PATH $WP/usr/lib/i386-linux-gnu/dri
 append_dir LD_LIBRARY_PATH $LIBGL_DRIVERS_PATH
 
 # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
@@ -215,6 +233,7 @@ append_dir LD_LIBRARY_PATH /var/lib/snapd/lib/gl
 
 # Pulseaudio export
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/pulseaudio
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/pulseaudio
 
 # EGL vendor files on glvnd enabled systems
 [ -d /var/lib/snapd/lib/glvnd/egl_vendor.d ] && \
@@ -308,6 +327,12 @@ if [ -f $WP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ] && [ ! -f "$
   $WP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULE_FILE
 fi
 
+if [ ! -d $WINEPREFIX ]; then
+# link ttf & ttc fonts from root to wineprefix
+mkdir -p $WINEPREFIX/drive_c/windows/Fonts
+find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &>/dev/null
+fi
+
 # Stop wine from updating $WINEPREFIX automatically
 if [ -f "${WINEPREFIX}/.update-timestamp" ]; then
   chkstmp=$(grep disable "${WINEPREFIX}/.update-timestamp" | wc -l)
@@ -321,9 +346,11 @@ if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
   # Create wine cache dir
   mkdir -p ${XDG_CACHE_HOME}/wine
   # Download Wine Mono to cache
-  wget "${MONO_URL}" -O "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>&1 | \
-  perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
-  yad --progress --title="${MONO_MSI}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+  if [ ! -f "${XDG_CACHE_HOME}/wine/${MONO_MSI}" ]; then
+   wget "${MONO_URL}" -O "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>&1 | \
+   perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+   yad --progress --title="${MONO_MSI}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+  fi
   # create dlloverride reg
   progReg=${TMPDIR}/dlloverrides.reg
 cat > $progReg <<'EOF'

@@ -15,7 +15,7 @@ plugs:
     content: wine-base-stable
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-i386
+    default-provider: wine-platform
 
 apps:
   cnctsun:
