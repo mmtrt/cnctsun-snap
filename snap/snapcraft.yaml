@@ -23,7 +23,7 @@ apps:
       bin/sommelier "$(find $WINEPREFIX/ -type f \( -name 'Launcher.exe' -o -name 'TSMPLauncher.exe' \) 2>/dev/null)"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mshtml=,winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
+      DLLOVERRIDES: "mshtml=;winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
       INSTALL_URL_TS: "http://tore29.com/tsins/TSinstaller.exe" # cnctsun full game setup
       INSTALL_URL_CNC: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe" # cnctsun multiplayer only setup
       MONO_URL: "https://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi"
@@ -48,7 +48,7 @@ apps:
     command: bin/sommelier $SNAP/wine-platform/wine-stable/bin/wineboot
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mshtml=,winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
+      DLLOVERRIDES: "mshtml=;winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
     plugs:
       - desktop
       - desktop-legacy
@@ -59,7 +59,7 @@ apps:
     command: bin/sommelier $SNAP/wine-platform/wine-stable/bin/winecfg
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mshtml=,winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
+      DLLOVERRIDES: "mshtml=;winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
     plugs:
       - desktop
       - desktop-legacy
@@ -70,7 +70,7 @@ apps:
     command: bin/sommelier $SNAP/wine-platform/bin/winetricks prefix="$WINEPREFIX"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mshtml=,winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
+      DLLOVERRIDES: "mshtml=;winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
       LC_ALL: "C.UTF-8"
     plugs:
       - desktop
