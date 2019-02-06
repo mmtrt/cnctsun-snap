@@ -104,7 +104,7 @@ function install_ts_unof_ger_complete() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}"
     # Get unofficial ger lang pack complete
-    wget --no-check-certificate 'https://raw.githubusercontent.com/mzramna/easy-google-drive-downloader/master/download_google_drive_file.sh' -O${XDG_CACHE_HOME}/download_google_drive_file.sh && chmod +x ${XDG_CACHE_HOME}/download_google_drive_file.sh && ./${XDG_CACHE_HOME}/download_google_drive_file.sh '10gE3vUSUcjFWC0gxsnUbbLlZODffdydE' && rm ${XDG_CACHE_HOME}/download_google_drive_file.sh && tar xvjC $WINEPREFIX/drive_c/Westwood/SUN/ -f cnctsf_uncut_language_pack_german.tar.bz2
+    wget --no-check-certificate 'https://raw.githubusercontent.com/mzramna/easy-google-drive-downloader/master/download_google_drive_file.sh' -O${XDG_CACHE_HOME}/download_google_drive_file.sh && chmod +x ${XDG_CACHE_HOME}/download_google_drive_file.sh && . ${XDG_CACHE_HOME}/download_google_drive_file.sh '10gE3vUSUcjFWC0gxsnUbbLlZODffdydE' && rm ${XDG_CACHE_HOME}/download_google_drive_file.sh && tar xvjC $WINEPREFIX/drive_c/Westwood/SUN/ -f cnctsf_uncut_language_pack_german.tar.bz2
     # Remove dlloverride reg
     rm "${progReg}" 2>/dev/null
     # Removes the cached installers    
