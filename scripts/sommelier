@@ -245,12 +245,12 @@ function install_cnc() {
 
   case $action in
       Eng*) cmd=$(install_ts) ;;
-      Fre_Core*) cmd=$(install_ts_unof_fre_core) ;;
-      Gre_Core*) cmd=$(install_ts_unof_ger_core) ;;
-      Esp_Core*) cmd=$(install_ts_unof_esp_core) ;;
-      Fre_Complete*) cmd=$(install_ts_unof_fre_complete) ;;
-      Gre_Complete*) cmd=$(install_ts_unof_ger_complete) ;;
-      Esp_Complete*) cmd=$(install_ts_unof_esp_complete) ;;
+      French_Cor*) cmd=$(install_ts_unof_fre_core) ;;
+      German_Cor*) cmd=$(install_ts_unof_ger_core) ;;
+      Spanish_Cor*) cmd=$(install_ts_unof_esp_core) ;;
+      French_Com*) cmd=$(install_ts_unof_fre_complete) ;;
+      German_Com*) cmd=$(install_ts_unof_ger_complete) ;;
+      Spanish_Com*) cmd=$(install_ts_unof_esp_complete) ;;
       Multi*) cmd=$(install_cnc) ;;
       *) exit 1 ;;    
   esac
