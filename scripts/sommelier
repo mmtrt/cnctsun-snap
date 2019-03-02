@@ -60,9 +60,147 @@ function install_ts() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}" /silent
     # Remove dlloverride reg
-    rm "${progReg}"
+    rm "${progReg}" 2>/dev/null
     # Removes the cached installers    
-    rm -v "${TMPDIR}/${INSTALL_EXE_TS}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_TS}" 2>/dev/null
+    rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>/dev/null
+    rm -r "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_ts_unof_fre_core() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TS}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_TS}" -O "${TMPDIR}/${INSTALL_EXE_TS}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_TS}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}"
+    # Get unofficial fre lang pack core
+    wget --no-check-certificate 'https://raw.githubusercontent.com/mzramna/easy-google-drive-downloader/master/download_google_drive_file.sh' -O${XDG_CACHE_HOME}/download_google_drive_file.sh && chmod +x ${XDG_CACHE_HOME}/download_google_drive_file.sh && . ${XDG_CACHE_HOME}/download_google_drive_file.sh '1TqadPo4VYT3gsWAKOVGS3apALQVzXONO' && rm ${XDG_CACHE_HOME}/download_google_drive_file.sh && tar xvjC $WINEPREFIX/drive_c/Westwood/SUN/ -f cnctsf_uncut_language_pack_french_small.tar.bz2
+    # Remove dlloverride reg
+    rm "${progReg}" 2>/dev/null
+    # Removes the cached installers    
+    rm -v "${TMPDIR}/${INSTALL_EXE_TS}" 2>/dev/null
+    rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>/dev/null
+    rm -r "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_ts_unof_fre_complete() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TS}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_TS}" -O "${TMPDIR}/${INSTALL_EXE_TS}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_TS}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}"
+    # Get unofficial fre lang pack complete
+    wget --no-check-certificate 'https://raw.githubusercontent.com/mzramna/easy-google-drive-downloader/master/download_google_drive_file.sh' -O${XDG_CACHE_HOME}/download_google_drive_file.sh && chmod +x ${XDG_CACHE_HOME}/download_google_drive_file.sh && . ${XDG_CACHE_HOME}/download_google_drive_file.sh '1Yo_tro6140ugdwrTLFF8tHnfoXuxEh7u' && rm ${XDG_CACHE_HOME}/download_google_drive_file.sh && tar xvjC $WINEPREFIX/drive_c/Westwood/SUN/ -f cnctsf_uncut_language_pack_french.tar.bz2
+    # Remove dlloverride reg
+    rm "${progReg}" 2>/dev/null
+    # Removes the cached installers    
+    rm -v "${TMPDIR}/${INSTALL_EXE_TS}" 2>/dev/null
+    rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>/dev/null
+    rm -r "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_ts_unof_ger_core() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TS}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_TS}" -O "${TMPDIR}/${INSTALL_EXE_TS}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_TS}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}"
+    # Get unofficial ger lang pack core
+    wget --no-check-certificate 'https://raw.githubusercontent.com/mzramna/easy-google-drive-downloader/master/download_google_drive_file.sh' -O${XDG_CACHE_HOME}/download_google_drive_file.sh && chmod +x ${XDG_CACHE_HOME}/download_google_drive_file.sh && . ${XDG_CACHE_HOME}/download_google_drive_file.sh '1yNuqd7v_mGIXaEWVipG_JKaCLO_JfRK_' && rm ${XDG_CACHE_HOME}/download_google_drive_file.sh && tar xvjC $WINEPREFIX/drive_c/Westwood/SUN/ -f cnctsf_uncut_language_pack_german_small.tar.bz2
+    # Remove dlloverride reg
+    rm "${progReg}" 2>/dev/null
+    # Removes the cached installers    
+    rm -v "${TMPDIR}/${INSTALL_EXE_TS}" 2>/dev/null
+    rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>/dev/null
+    rm -r "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_ts_unof_ger_complete() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TS}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_TS}" -O "${TMPDIR}/${INSTALL_EXE_TS}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_TS}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}"
+    # Get unofficial ger lang pack complete
+    wget --no-check-certificate 'https://raw.githubusercontent.com/mzramna/easy-google-drive-downloader/master/download_google_drive_file.sh' -O${XDG_CACHE_HOME}/download_google_drive_file.sh && chmod +x ${XDG_CACHE_HOME}/download_google_drive_file.sh && . ${XDG_CACHE_HOME}/download_google_drive_file.sh '10gE3vUSUcjFWC0gxsnUbbLlZODffdydE' && rm ${XDG_CACHE_HOME}/download_google_drive_file.sh && tar xvjC $WINEPREFIX/drive_c/Westwood/SUN/ -f cnctsf_uncut_language_pack_german.tar.bz2
+    # Remove dlloverride reg
+    rm "${progReg}" 2>/dev/null
+    # Removes the cached installers    
+    rm -v "${TMPDIR}/${INSTALL_EXE_TS}" 2>/dev/null
+    rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>/dev/null
+    rm -r "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_ts_unof_esp_core() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TS}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_TS}" -O "${TMPDIR}/${INSTALL_EXE_TS}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_TS}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}"
+    # Get unofficial esp lang pack core
+    wget --no-check-certificate 'https://raw.githubusercontent.com/mzramna/easy-google-drive-downloader/master/download_google_drive_file.sh' -O${XDG_CACHE_HOME}/download_google_drive_file.sh && chmod +x ${XDG_CACHE_HOME}/download_google_drive_file.sh && . ${XDG_CACHE_HOME}/download_google_drive_file.sh '1JXcUHq0mgaOFhYMetYlhaTgtMH_7bYpI' && rm ${XDG_CACHE_HOME}/download_google_drive_file.sh && tar xvjC $WINEPREFIX/drive_c/Westwood/SUN/ -f cnctsf_uncut_language_pack_spanish_small.tar.bz2
+    # Remove dlloverride reg
+    rm "${progReg}" 2>/dev/null
+    # Removes the cached installers    
+    rm -v "${TMPDIR}/${INSTALL_EXE_TS}" 2>/dev/null
+    rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>/dev/null
+    rm -r "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_ts_unof_esp_complete() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TS}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_TS}" -O "${TMPDIR}/${INSTALL_EXE_TS}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_TS}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TS}"
+    # Get unofficial esp lang pack complete
+    wget --no-check-certificate 'https://raw.githubusercontent.com/mzramna/easy-google-drive-downloader/master/download_google_drive_file.sh' -O${XDG_CACHE_HOME}/download_google_drive_file.sh && chmod +x ${XDG_CACHE_HOME}/download_google_drive_file.sh && . ${XDG_CACHE_HOME}/download_google_drive_file.sh '1e8OugEos3sNQzobR01Dyn80OxZ9FB7cI' && rm ${XDG_CACHE_HOME}/download_google_drive_file.sh && tar xvjC $WINEPREFIX/drive_c/Westwood/SUN/ -f cnctsf_uncut_language_pack_spanish.tar.bz2
+    # Remove dlloverride reg
+    rm "${progReg}" 2>/dev/null
+    # Removes the cached installers    
+    rm -v "${TMPDIR}/${INSTALL_EXE_TS}" 2>/dev/null
     rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>/dev/null
     rm -r "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
@@ -84,9 +222,9 @@ function install_cnc() {
     mkdir -p "${WINEPREFIX}/drive_c/Games/CnCNet/"
     cp -R -p "${TMPDIR}/TiberianSun_Online" "${WINEPREFIX}/drive_c/Games/CnCNet/"
     # Remove Game install from tmp
-    rm -r "${TMPDIR}/TiberianSun_Online"
+    rm -r "${TMPDIR}/TiberianSun_Online" 2>/dev/null
     # Removes the cached installers
-    rm -v "${TMPDIR}/${INSTALL_EXE_CNC}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_CNC}" 2>/dev/null
     rm -v "${XDG_CACHE_HOME}/wine/${MONO_MSI}" 2>/dev/null
     rm -r "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
@@ -100,13 +238,19 @@ function install_cnc() {
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Version Type:" \
       --entry-text \
-      "Full Game (Singleplayer + Multiplayer)" "Multiplayer")
+      "English - Full Game" "French_Core - Full Game" "German_Core - Full Game" "Spanish_Core - Full Game" "French_Complete - Full Game" "German_Complete - Full Game" "Spanish_Complete - Full Game" "Multiplayer")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
 
   case $action in
-      Full*) cmd=$(install_ts) ;;
+      Eng*) cmd=$(install_ts) ;;
+      French_Cor*) cmd=$(install_ts_unof_fre_core) ;;
+      German_Cor*) cmd=$(install_ts_unof_ger_core) ;;
+      Spanish_Cor*) cmd=$(install_ts_unof_esp_core) ;;
+      French_Com*) cmd=$(install_ts_unof_fre_complete) ;;
+      German_Com*) cmd=$(install_ts_unof_ger_complete) ;;
+      Spanish_Com*) cmd=$(install_ts_unof_esp_complete) ;;
       Multi*) cmd=$(install_cnc) ;;
       *) exit 1 ;;    
   esac
