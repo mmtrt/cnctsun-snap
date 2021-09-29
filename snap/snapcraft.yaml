@@ -1,4 +1,5 @@
 name: cnctsun
+title: C&C Tiberian Sun (WINE)
 version: '1.0'
 summary: C&C Tiberian Sun is a real-time strategy game.
 description: |
@@ -10,6 +11,7 @@ architectures:
   - build-on: amd64
     run-on: [amd64, i386]
 base: core18
+compression: lzo
 
 plugs:
   wine-runtime:
@@ -20,89 +22,60 @@ plugs:
     interface: content
     target: $SNAP/wine-platform
     default-provider: wine-platform-5-stable
-  gtk-3-themes:
-    default-provider: gtk-common-themes
-    interface: content
-    target: $SNAP/data-dir/themes
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
+
+environment:
+  WINEDLLOVERRIDES: "mshtml="    # Prevent pop-ups about Wine Gecko
+  WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+  WINEARCH: "win32"
+  INSTALL_URL_TS: "https://tore29.com/tsins/TSinstaller.exe" # cnctsun full game setup
+  INSTALL_URL_CNC: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe" # cnctsun multiplayer only setup
+  TRICKS: "dotnet20"
+  NO_AT_BRIDGE: 1
+  SOMMELIER_INSTALL_MONO: 1
+  SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
 
 apps:
   cnctsun:
+    extensions: [ gnome-3-28 ]
     command: |
-      bin/sommelier "$(find $WINEPREFIX/ -type f \( -name 'Launcher.exe' -o -name 'TSMPLauncher.exe' \) 2>/dev/null)"
+      bin/sommelier run-exe
     environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
-      INSTALL_URL_TS: "https://tore29.com/tsins/TSinstaller.exe" # cnctsun full game setup
-      INSTALL_URL_CNC: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe" # cnctsun multiplayer only setup
-      MONO_URL: "https://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi"
-      TRICKS: "dotnet20"
-      VIRTDESKTOP: 0
-      LC_ALL: "C.UTF-8"
+      RUN_EXE: "$WINEPREFIX/drive_c/Games/CnCNet/TiberianSun_Online/TSMPLauncher.exe"
+      RUN_EXE_2: "$WINEPREFIX/drive_c/Westwood/SUN/Launcher.exe"
     plugs:
-      - desktop
-      - desktop-legacy
-      - hardware-observe
       - home
-      - joystick
       - network
       - network-bind
       - opengl
-      - process-control
-      - pulseaudio
-      - wayland
-      - x11
-      - gtk-3-themes
-      - icon-themes
-      - wine-runtime
-      - wine-5-stable
-  wineboot:
-    command: bin/sommelier $SNAP/wine-platform/wine-stable/bin/wineboot
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
+      - audio-playback
+
+  wine:
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier
     plugs:
-      - desktop
-      - desktop-legacy
-      - pulseaudio
-      - wayland
-      - x11
-  winecfg:
-    command: bin/sommelier $SNAP/wine-platform/wine-stable/bin/winecfg
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
-    plugs:
-      - desktop
-      - desktop-legacy
-      - pulseaudio
-      - wayland
-      - x11
-  winetricks:
-    command: bin/sommelier $SNAP/wine-runtime/bin/winetricks prefix="$WINEPREFIX"
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mshtml=" # Prevent pop-ups about Wine Gecko
-      LC_ALL: "C.UTF-8"
-    plugs:
-      - desktop
-      - desktop-legacy
+      - home
       - network
-      - pulseaudio
-      - wayland
-      - x11
+
+  winetricks:
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier winetricks
+    plugs:
+      - network
 
 parts:
   cnctsun:
-    plugin: dump
-    source: ./snap/local/scripts
+    plugin: nil
+    source: ./snap/local/src
     override-build: |
       snapcraftctl build
       set -ex
-      mkdir -p $SNAPCRAFT_PART_INSTALL/wine-runtime
-      mkdir -p $SNAPCRAFT_PART_INSTALL/wine-platform
-    organize:
-      'sommelier': bin/
+      mkdir -p sommelier/hooks ; mv pre-install sommelier/hooks ; cp -R -p sommelier $SNAPCRAFT_PART_INSTALL
+    stage:
+      - sommelier
+
+  # The sommelier script helps you snap Windows applications using Wine. It
+  # initializes and configures Wine and installs the Windows application.
+  sommelier:
+    plugin: make
+    source: https://github.com/mmtrt/sommelier-core.git
+    source-branch: "multi-exe-patch"
