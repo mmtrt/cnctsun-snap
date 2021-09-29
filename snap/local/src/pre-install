@@ -102,4 +102,3 @@ function install_cnc() {
   esac
 
   eval $cmd 2>/dev/null
-}
