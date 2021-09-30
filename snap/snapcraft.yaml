@@ -32,6 +32,7 @@ environment:
   TRICKS: "dotnet20"
   NO_AT_BRIDGE: 1
   SOMMELIER_INSTALL_MONO: 1
+  SOMMELIER_NO_THEME: 1
   SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
 
 apps:
