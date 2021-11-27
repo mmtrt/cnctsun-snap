@@ -31,6 +31,7 @@ environment:
   INSTALL_URL_CNC: "https://downloads.cncnet.org/TiberianSun_Online_Installer.exe" # cnctsun multiplayer only setup
   TRICKS: "dotnet20"
   NO_AT_BRIDGE: 1
+  DISABLE_WAYLAND: 1
   SOMMELIER_INSTALL_MONO: 1
   SOMMELIER_NO_THEME: 1
   SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
